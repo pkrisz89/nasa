@@ -18,26 +18,22 @@ const Image = styled.img`
 const notFound = mediatype => <h1>No {mediatype} found.</h1>;
 
 const mediaThumbnail = (item, url) => (
-                        <ImageWrapper key={item.data[0].nasa_id}>
-                            <LazyLoad once>
-                                <Image src={url} alt=""/>
-                            </LazyLoad>
-                            {item.data[0].title}
-                        </ImageWrapper>
-                    )
+    <ImageWrapper key={item.data[0].nasa_id}>
+        <LazyLoad once>
+            <Image src={url} alt=""/>
+        </LazyLoad>
+        {item.data[0].title}
+    </ImageWrapper>
+)
 
 export default function(items, mediatype, searchedBefore) {
-    if (items) {
-        if (!items.length && searchedBefore) {
-            return notFound(mediatype)
-        }
-        return items.map(item => {
-            if (item.data[0].media_type === 'audio') {
-               return mediaThumbnail(item, audioFile)
-            }
-            return mediaThumbnail(item, item.links[0].href)
-        })
+    if (!items.length && searchedBefore) {
+        return notFound(mediatype)
     }
-
-    return undefined;
+    return items.map(item => {
+        if (item.data[0].media_type === 'audio') {
+            return mediaThumbnail(item, audioFile)
+        }
+        return mediaThumbnail(item, item.links[0].href)
+    })
 };

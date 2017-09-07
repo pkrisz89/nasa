@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 
 import getItems from './utils/getItems';
 import mapItems from './utils/mapItems';
+import {defaultUrl} from './constants';
 import SearchForm from './components/searchForm';
+import showError from './components/error';
+import Pagination from './components/pagination.js';
 
 const GridContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 `;
-
-const Pagination = styled.button`
-  display: ${props => props.hidden ? 'none' : 'inline-block'};
-`
 
 class App extends Component {
   constructor(props){
@@ -24,7 +22,8 @@ class App extends Component {
       mediatype: 'image', //image or audio
       searchedBefore: false,
       collection: {},
-      images: []
+      images: [],
+      apiError: false
     };
   };
   
@@ -32,40 +31,29 @@ class App extends Component {
     this.setState({[event.target.name]: event.target.value});
   };
 
-  addToCollection = (event) => {
-    const APIURL = 'https://images-api.nasa.gov/';
-    const url = `${APIURL}search?q=${this.state.keyword}&media_type=${this.state.mediatype}`
-    getItems(event, url)
-      .then(collection => {this.setState({collection, searchedBefore: true})})
+  addToCollection = (url) => {
+    getItems(url)
+      .then(collection => {this.setState({collection, searchedBefore: true, apiError: false})})
+      .catch(()=>{this.setState({apiError: true})});
   };
-
-  findPaginationUrl = (urls, direction) => {
-    if (urls) {
-      return urls.find(url => url.rel === direction)
-    }
-  }
-
-  pagination = (direction) => {
-    return getItems(window.event, this.findPaginationUrl(this.state.collection.links, direction).href)
-    .then( collection => {this.setState({collection})})
-  }
   
   render() {
-    let nextLink = this.findPaginationUrl(this.state.collection.links, 'next')
-    let prevLink = this.findPaginationUrl(this.state.collection.links, 'prev')
     return (
       <div>
         <SearchForm keyword={this.state.keyword} 
                     mediatype={this.state.mediatype} 
                     handleChange={this.handleChange} 
-                    getItems={this.addToCollection}/>
+                    getItems={(e)=>{
+                      e.preventDefault(); 
+                      this.addToCollection(defaultUrl(this.state.keyword, this.state.mediatype))}}/>
+
+        {showError(this.state.apiError)}
+        
         <GridContainer>
-          {mapItems(this.state.collection.items, this.state.mediatype, this.state.searchedBefore)}
+          {this.state.collection.items && mapItems(this.state.collection.items, this.state.mediatype, this.state.searchedBefore)}
         </GridContainer>
-        <div>
-          <Pagination hidden={!prevLink} onClick={()=>{this.pagination('prev')}}>PREVIOUS</Pagination>
-          <Pagination hidden={!nextLink} onClick={()=>{this.pagination('next')}}>NEXT</Pagination>
-        </div>
+        <Pagination links={this.state.collection.links} addToCollection={this.addToCollection}
+                    />
       </div>
     );
   }
