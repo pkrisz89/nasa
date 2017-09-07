@@ -1,70 +1,73 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import LazyLoad from 'react-lazyload';
 import styled from 'styled-components';
+import axios from 'axios';
 
-const APIUrl = 'https://images-api.nasa.gov/';
+import getItems from './utils/getItems';
+import mapItems from './utils/mapItems';
+import SearchForm from './components/searchForm';
 
-const ImageWrapper = styled.div`
-  position: relative;
-  padding-bottom: 20%;
-  height: 0;
+const GridContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
-const Image = styled.img`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: auto;
-  height: 100%;
-  background: teal;
-`;
+
+const Pagination = styled.button`
+  display: ${props => props.hidden ? 'none' : 'inline-block'};
+`
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
       keyword: 'moon',
-      mediatype: 'image', //images or audio
-      collection: [],
+      mediatype: 'image', //image or audio
+      collection: {},
       images: []
     };
   };
-
-  getItems = (event) => {
-    event.preventDefault();
-    const mediatype = this.state.mediatype;
-    const keyword = this.state.keyword
-    axios.get(`${APIUrl}/search?q=${keyword}&media_type=${mediatype}`).then((res)=>{
-      this.setState({collection: res.data.collection.items})
-    }).catch(error=>{console.log(error)});
-  }
-
-  mapItems = (items) => {
-    if (items) {
-      return items.map(item => {
-        return (<ImageWrapper key={item.data[0].nasa_id}><LazyLoad><Image src={item.links[0].href} alt=""/></LazyLoad></ImageWrapper>)
-      })
-    }
-  };
   
-
   handleChange = (event) => {
     this.setState({[event.target.name]: event.target.value});
   };
 
+
+
+  ///REFACTOR THIS INTO ONE
+  addToCollection = (event) => {
+    const APIURL = 'https://images-api.nasa.gov/';
+    const url = `${APIURL}search?q=${this.state.keyword}&media_type=${this.state.mediatype}`
+    getItems(event, url)
+      .then(collection => {this.setState({collection})})
+  };
+
+  findPaginationUrl = (urls, direction) => {
+    if (urls) {
+      return urls.find(url => url.rel === direction)
+    }
+  }
+
+  pagination = (direction) => {
+    return getItems(window.event, this.findPaginationUrl(this.state.collection.links, direction).href)
+    .then( collection => {this.setState({collection})})
+  }
+  
   render() {
+    let nextLink = this.findPaginationUrl(this.state.collection.links, 'next')
+    let prevLink = this.findPaginationUrl(this.state.collection.links, 'prev')
     return (
-      <div className="">
-        Make this more semantic!
-        <form>
-          <input type="text" name="keyword" value={this.state.keyword} onChange={this.handleChange}/>
-          <button onClick={this.getItems}>Search</button>
-          <div>
-            <input type="radio" name="mediatype" value="image" checked={this.state.mediatype === 'image'} onChange={this.handleChange}/> Images
-            <input type="radio" name="mediatype" value="audio" checked={this.state.mediatype === 'audio'} onChange={this.handleChange}/> Audio
-          </div>
-        </form>
-        {this.mapItems(this.state.collection)}
+      <div>
+        <SearchForm keyword={this.state.keyword} 
+                    mediatype={this.state.mediatype} 
+                    handleChange={this.handleChange} 
+                    getItems={this.addToCollection}/>
+        <GridContainer>
+          {mapItems(this.state.collection.items)}
+        </GridContainer>
+        <div>
+          <Pagination hidden={!prevLink} onClick={()=>{this.pagination('prev')}}>PREVIOUS</Pagination>
+          <Pagination hidden={!nextLink} onClick={()=>{this.pagination('next')}}>NEXT</Pagination>
+        </div>
       </div>
     );
   }
