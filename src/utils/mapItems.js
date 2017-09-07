@@ -15,27 +15,29 @@ const Image = styled.img`
     width: 320px;
 `;
 
-export default function(items) {
+const notFound = mediatype => <h1>No {mediatype} found.</h1>;
+
+const mediaThumbnail = (item, url) => (
+                        <ImageWrapper key={item.data[0].nasa_id}>
+                            <LazyLoad once>
+                                <Image src={url} alt=""/>
+                            </LazyLoad>
+                            {item.data[0].title}
+                        </ImageWrapper>
+                    )
+
+export default function(items, mediatype, searchedBefore) {
     if (items) {
-       return items.map(item => {
+        if (!items.length && searchedBefore) {
+            return notFound(mediatype)
+        }
+        return items.map(item => {
             if (item.data[0].media_type === 'audio') {
-                return (
-                    <ImageWrapper key={item.data[0].nasa_id}>
-                        <LazyLoad once>
-                            <Image src={audioFile} alt=""/>
-                        </LazyLoad>
-                        {item.data[0].title}
-                    </ImageWrapper>
-                )
+               return mediaThumbnail(item, audioFile)
             }
-            return (
-                <ImageWrapper key={item.data[0].nasa_id}>
-                    <LazyLoad once>
-                        <Image src={item.links[0].href} alt=""/>
-                    </LazyLoad>
-                    {item.data[0].title}
-                </ImageWrapper>
-            )
+            return mediaThumbnail(item, item.links[0].href)
         })
     }
+
+    return undefined;
 };

@@ -22,6 +22,7 @@ class App extends Component {
     this.state = {
       keyword: 'moon',
       mediatype: 'image', //image or audio
+      searchedBefore: false,
       collection: {},
       images: []
     };
@@ -31,14 +32,11 @@ class App extends Component {
     this.setState({[event.target.name]: event.target.value});
   };
 
-
-
-  ///REFACTOR THIS INTO ONE
   addToCollection = (event) => {
     const APIURL = 'https://images-api.nasa.gov/';
     const url = `${APIURL}search?q=${this.state.keyword}&media_type=${this.state.mediatype}`
     getItems(event, url)
-      .then(collection => {this.setState({collection})})
+      .then(collection => {this.setState({collection, searchedBefore: true})})
   };
 
   findPaginationUrl = (urls, direction) => {
@@ -62,7 +60,7 @@ class App extends Component {
                     handleChange={this.handleChange} 
                     getItems={this.addToCollection}/>
         <GridContainer>
-          {mapItems(this.state.collection.items)}
+          {mapItems(this.state.collection.items, this.state.mediatype, this.state.searchedBefore)}
         </GridContainer>
         <div>
           <Pagination hidden={!prevLink} onClick={()=>{this.pagination('prev')}}>PREVIOUS</Pagination>
