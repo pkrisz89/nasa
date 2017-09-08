@@ -33,8 +33,12 @@ class Search extends Component {
 
   addToCollection = url => {
     getItems(url)
-      .then(collection => {
-        this.setState({ collection, searchedBefore: true, apiError: false });
+      .then(items => {
+        this.setState({
+          collection: items.collection,
+          searchedBefore: true,
+          apiError: false
+        });
       })
       .catch(() => {
         this.setState({ apiError: true });
