@@ -14,6 +14,12 @@ const GridContainer = styled.div`
   justify-content: center;
 `;
 
+const SearchContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 45px auto;
+`;
+
 class Search extends Component {
   constructor(props) {
     super(props);
@@ -48,17 +54,19 @@ class Search extends Component {
   render() {
     return (
       <div>
-        <SearchForm
-          keyword={this.state.keyword}
-          mediatype={this.state.mediatype}
-          handleChange={this.handleChange}
-          getItems={e => {
-            e.preventDefault();
-            this.addToCollection(
-              defaultUrl(this.state.keyword, this.state.mediatype)
-            );
-          }}
-        />
+        <SearchContainer>
+          <SearchForm
+            keyword={this.state.keyword}
+            mediatype={this.state.mediatype}
+            handleChange={this.handleChange}
+            getItems={e => {
+              e.preventDefault();
+              this.addToCollection(
+                defaultUrl(this.state.keyword, this.state.mediatype)
+              );
+            }}
+          />
+        </SearchContainer>
 
         {showError(this.state.apiError)}
 

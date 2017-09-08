@@ -3,14 +3,25 @@ import styled from 'styled-components';
 import LazyLoad from 'react-lazyload';
 
 const ImageWrapper = styled.div`
-  margin: 10px;
+  position: relative;
   height: 180px;
   width: 320px;
+  margin: 5px;
+  background: #efefef;
 `;
 
 const Image = styled.img`
   height: 180px;
   width: 320px;
+`;
+
+const Title = styled.p`
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  color: #efefef;
+  background: #553982;
+  padding: 5px;
 `;
 
 export default (item, url) => (
@@ -19,7 +30,7 @@ export default (item, url) => (
       <LazyLoad once>
         <Image src={url} alt="" />
       </LazyLoad>
-      {item.data[0].title}
+      <Title>{item.data[0].title}</Title>
     </a>
   </ImageWrapper>
 );
