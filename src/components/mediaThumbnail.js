@@ -15,7 +15,7 @@ const Image = styled.img`
 
 export default (item, url) => (
   <ImageWrapper key={item.data[0].nasa_id}>
-    <a href={`/asset/${item.data[0].nasa_id}`}>
+    <a href={`/${item.data[0].media_type}/${item.data[0].nasa_id}`}>
       <LazyLoad once>
         <Image src={url} alt="" />
       </LazyLoad>
