@@ -6,23 +6,33 @@ class Asset extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      asset: {}
+      asset: []
     };
   }
 
   componentWillMount() {
     const assetUrl = `${APIURL}/asset/${this.props.match.params.id}`;
     getItems(assetUrl).then(asset => {
-      this.setState({ asset });
+      this.setState({ asset: asset.items });
     });
   }
 
+  showMedia = link => {
+    console.log(link);
+    if (link) {
+      return <img src={link.href} alt="" />;
+    }
+    return undefined;
+  };
+
   render() {
+    console.log(this.state.asset);
     //errorhandling
+    //loading state
     //output details
     //handling audio/image
     //back to search button
-    return <h1>Hello {this.props.match.params.id}</h1>;
+    return <div>{this.state.asset && this.showMedia(this.state.asset[0])}</div>;
   }
 }
 
