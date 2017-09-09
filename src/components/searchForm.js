@@ -8,6 +8,7 @@ const SearchInput = styled.input`
   border-left: 0px;
   border-right: 0px;
   margin: 0px 10px 10px;
+  width: 250px;
   &:focus {
     outline: 0px;
     border-bottom: 2px solid #553982;
@@ -19,11 +20,13 @@ const SubmitButton = styled.button`
   display: inline-block;
   cursor: pointer;
   height: 40px;
+  width: 90px;
   color: #553982;
   background-color: #fff;
   border: 0;
   vertical-align: top;
   border: 1px solid #553982;
+  margin-left: 10px;
   &:focus {
     outline: 0px;
   }

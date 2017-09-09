@@ -2,7 +2,7 @@ import { injectGlobal } from 'styled-components';
 
 injectGlobal`
   body {
-    margin: 0;
+    margin: 5px;
     font-family: 'Helvetica';
   }
 
