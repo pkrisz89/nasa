@@ -22,15 +22,17 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-   "lint-staged": {
-   "src/**/*.{js,jsx,json,css}": [
-     "prettier --single-quote --write",
-     "git add"
-   ]
- },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
+  },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "enzyme": "^2.9.1",
     "eslint-config-react-app": "^2.0.0",
-    "eslint-plugin-flowtype": "^2.34.1"
+    "eslint-plugin-flowtype": "^2.34.1",
+    "react-test-renderer": "^15.6.1"
   }
 }
