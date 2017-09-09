@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import getItems from './../utils/getItems';
+import convertToHttps from './../utils/convertToHttps';
 import { APIURL } from './../constants';
 import mediaItem from './../components/mediaItem';
 import showError from './../components/error';
@@ -25,8 +26,10 @@ class Asset extends Component {
         function returnMetaData(item) {
           return item.href.includes('metadata.json', 0);
         }
+
         const metaData = asset.collection.items.find(returnMetaData);
-        return getItems(metaData.href);
+
+        return getItems(convertToHttps(metaData.href));
       })
       .then(metaData => {
         this.setState({ metaData, error: false, loading: false });

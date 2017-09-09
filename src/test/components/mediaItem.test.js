@@ -2,7 +2,7 @@ import React from 'react';
 import { mount, shallow, render } from 'enzyme';
 import mediaItem from './../../components/mediaItem';
 
-describe('mediaItem', () => {
+xdescribe('mediaItem', () => {
   describe('image type', () => {
     const link = { href: 'img link' };
     const metaData = {
