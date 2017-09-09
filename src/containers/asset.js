@@ -3,6 +3,7 @@ import getItems from './../utils/getItems';
 import { APIURL } from './../constants';
 import mediaItem from './../components/mediaItem';
 import showError from './../components/error';
+import Loading from './../components/loading';
 
 class Asset extends Component {
   constructor(props) {
@@ -10,7 +11,8 @@ class Asset extends Component {
     this.state = {
       asset: [],
       metaData: {},
-      error: false
+      error: false,
+      loading: true
     };
   }
 
@@ -25,17 +27,19 @@ class Asset extends Component {
         return getItems(metaData.href);
       })
       .then(metaData => {
-        this.setState({ metaData, error: false });
+        this.setState({ metaData, error: false, loading: false });
       })
       .catch(() => {
-        this.setState({ error: true });
+        this.setState({ error: true, loading: false });
       });
   }
 
   render() {
     return (
       <div>
+        {this.state.loading && <Loading />}
         {this.state.asset &&
+          !this.state.loading &&
           mediaItem(
             this.state.asset[0],
             this.state.metaData,

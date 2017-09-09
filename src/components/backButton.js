@@ -11,10 +11,6 @@ const Button = styled.a`
   :active {
     color: #553982;
   }
-  &:hover {
-    color: #fff;
-    background: #553982;
-  }
 `;
 
 export default () => <Button href="/">Back</Button>;
