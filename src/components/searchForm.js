@@ -3,16 +3,21 @@ import styled from 'styled-components';
 
 const SearchInput = styled.input`
   font-size: 16px;
-  border-top: 2px solid #553982;
-  border-bottom: 2px solid #553982;
-  border-left: 2px solid #553982;
+  border-top: 0px;
+  border-bottom: 1px solid #553982;
+  border-left: 0px;
   border-right: 0px;
-  margin: 0;
+  margin: 0px 10px 10px;
+  &:focus {
+    outline: 0px;
+    border-bottom: 2px solid #553982;
+    margin-bottom: 9px;
+  }
 `;
 
 const SubmitButton = styled.button`
   display: inline-block;
-  height: 25px;
+  height: 23px;
   width: 60px;
   color: #d1d5d8;
   background-color: #553982;
@@ -20,10 +25,13 @@ const SubmitButton = styled.button`
   vertical-align: top;
 `;
 
+const RadioButtons = styled.div`margin: 5px 10px;`;
+
 export default function(props) {
   return (
     <form>
       <div>
+        <h1>NASA Search</h1>
         <SearchInput
           type="text"
           name="keyword"
@@ -32,7 +40,7 @@ export default function(props) {
         />
         <SubmitButton onClick={props.getItems}>Search</SubmitButton>
       </div>
-      <div>
+      <RadioButtons>
         <label>
           <input
             type="radio"
@@ -53,7 +61,7 @@ export default function(props) {
           />{' '}
           Audios
         </label>
-      </div>
+      </RadioButtons>
     </form>
   );
 }

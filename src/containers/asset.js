@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import getItems from './../utils/getItems';
 import { APIURL } from './../constants';
 import mediaItem from './../components/mediaItem';
+import showError from './../components/error';
 
 class Asset extends Component {
   constructor(props) {
     super(props);
     this.state = {
       asset: [],
-      metaData: {}
+      metaData: {},
+      error: false
     };
   }
 
@@ -23,7 +25,10 @@ class Asset extends Component {
         return getItems(metaData.href);
       })
       .then(metaData => {
-        this.setState({ metaData });
+        this.setState({ metaData, error: false });
+      })
+      .catch(() => {
+        this.setState({ error: true });
       });
   }
 
@@ -36,6 +41,7 @@ class Asset extends Component {
             this.state.metaData,
             this.props.match.params.mediaType
           )}
+        {showError(this.state.error)}
       </div>
     );
   }
