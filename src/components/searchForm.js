@@ -19,7 +19,6 @@ const SubmitButton = styled.button`
   display: inline-block;
   cursor: pointer;
   height: 40px;
-  width: 60px;
   color: #553982;
   background-color: #fff;
   border: 0;
@@ -31,10 +30,6 @@ const SubmitButton = styled.button`
   &:visited,
   :active {
     color: #553982;
-  }
-  &:hover {
-    color: #fff;
-    background: #553982;
   }
 `;
 
@@ -50,7 +45,7 @@ export default function(props) {
           value={props.keyword}
           onChange={props.handleChange}
         />
-        <SubmitButton onClick={props.getItems}>Search</SubmitButton>
+        <SubmitButton onClick={props.getItems}>SEARCH</SubmitButton>
       </div>
       <RadioButtons>
         <label>
