@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import LazyLoad from 'react-lazyload';
+import { Link } from 'react-router-dom';
 
 const ImageWrapper = styled.div`
   position: relative;
@@ -26,11 +27,11 @@ const Title = styled.p`
 
 export default (item, url) => (
   <ImageWrapper key={item.data[0].nasa_id}>
-    <a href={`/${item.data[0].media_type}/${item.data[0].nasa_id}`}>
+    <Link to={`/${item.data[0].media_type}/${item.data[0].nasa_id}`}>
       <LazyLoad once>
         <Image src={url} alt="" />
       </LazyLoad>
       <Title>{item.data[0].title}</Title>
-    </a>
+    </Link>
   </ImageWrapper>
 );

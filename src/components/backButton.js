@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const Button = styled.a`
+const BackButton = styled(Link)`
   margin-top: 0.67em;
   text-decoration: none;
   border: 1px solid #553982;
@@ -13,4 +14,4 @@ const Button = styled.a`
   }
 `;
 
-export default () => <Button href="/">Back</Button>;
+export default () => <BackButton to="/">Back</BackButton>;
