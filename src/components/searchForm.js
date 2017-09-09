@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SearchInput = styled.input`
-  font-size: 16px;
+  font-size: 32px;
   border-top: 0px;
   border-bottom: 1px solid #553982;
   border-left: 0px;
@@ -17,12 +17,25 @@ const SearchInput = styled.input`
 
 const SubmitButton = styled.button`
   display: inline-block;
-  height: 23px;
+  cursor: pointer;
+  height: 40px;
   width: 60px;
-  color: #d1d5d8;
-  background-color: #553982;
+  color: #553982;
+  background-color: #fff;
   border: 0;
   vertical-align: top;
+  border: 1px solid #553982;
+  &:focus {
+    outline: 0px;
+  }
+  &:visited,
+  :active {
+    color: #553982;
+  }
+  &:hover {
+    color: #fff;
+    background: #553982;
+  }
 `;
 
 const RadioButtons = styled.div`margin: 5px 10px;`;
@@ -31,7 +44,6 @@ export default function(props) {
   return (
     <form>
       <div>
-        <h1>NASA Search</h1>
         <SearchInput
           type="text"
           name="keyword"
