@@ -46,6 +46,7 @@ export default function(props) {
           type="text"
           name="keyword"
           value={props.keyword}
+          placeholder="eg. Moon"
           onChange={props.handleChange}
         />
         <SubmitButton onClick={props.getItems}>SEARCH</SubmitButton>

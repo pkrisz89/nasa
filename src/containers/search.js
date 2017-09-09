@@ -24,7 +24,7 @@ class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      keyword: 'moon',
+      keyword: 'Moon',
       mediatype: 'image', //image or audio
       searchedBefore: false,
       collection: {},

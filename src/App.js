@@ -9,8 +9,11 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={Search} />
-          <Route path="/:mediaType/:id" component={Asset} />
+          <Route exact path={`${process.env.PUBLIC_URL}/`} component={Search} />
+          <Route
+            path={`${process.env.PUBLIC_URL}/:mediaType/:id`}
+            component={Asset}
+          />
         </Switch>
       </Router>
     );
