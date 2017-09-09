@@ -21,9 +21,11 @@ class Asset extends Component {
     getItems(assetUrl)
       .then(asset => {
         this.setState({ asset: asset.collection.items });
-        const metaData = asset.collection.items.find(item =>
-          item.href.includes('metadata.json', 0)
-        );
+
+        function returnMetaData(item) {
+          return item.href.includes('metadata.json', 0);
+        }
+        const metaData = asset.collection.items.find(returnMetaData);
         return getItems(metaData.href);
       })
       .then(metaData => {
