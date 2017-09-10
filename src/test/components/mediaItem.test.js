@@ -1,8 +1,9 @@
 import React from 'react';
 import { mount, shallow, render } from 'enzyme';
 import mediaItem from './../../components/mediaItem';
+import { MemoryRouter } from 'react-router-dom';
 
-xdescribe('mediaItem', () => {
+describe('mediaItem', () => {
   describe('image type', () => {
     const link = { href: 'img link' };
     const metaData = {
@@ -12,7 +13,9 @@ xdescribe('mediaItem', () => {
       'XMP:DateCreated': '2012-01-01'
     };
     const mediaType = 'image';
-    const wrapper = render(mediaItem(link, metaData, mediaType));
+    const wrapper = render(
+      <MemoryRouter>{mediaItem(link, metaData, mediaType)}</MemoryRouter>
+    );
 
     it('should render the correct title', function() {
       const h1 = wrapper.find('h1');
@@ -43,7 +46,9 @@ xdescribe('mediaItem', () => {
       'AVAIL:DateCreated': '2012-01-01'
     };
     const mediaType = 'audio';
-    const wrapper = render(mediaItem(link, metaData, mediaType));
+    const wrapper = render(
+      <MemoryRouter>{mediaItem(link, metaData, mediaType)}</MemoryRouter>
+    );
 
     it('should render the correct title', () => {
       const h1 = wrapper.find('h1');
